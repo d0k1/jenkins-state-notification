@@ -1,6 +1,7 @@
 package com.focusit.notification;
 
 import hudson.Extension;
+import hudson.model.Executor;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
@@ -14,17 +15,19 @@ import javax.annotation.Nonnull;
 public class JobListener extends RunListener {
     @Override
     public void onCompleted(Run run, @Nonnull TaskListener listener) {
-        super.onCompleted(run, listener);
+        Phase.COMPLETED.handle(run, listener, run.getTimeInMillis() + run.getDuration());
     }
 
     @Override
     public void onFinalized(Run run) {
-        super.onFinalized(run);
+        Phase.FINALIZED.handle(run, TaskListener.NULL, System.currentTimeMillis());
     }
 
     @Override
     public void onStarted(Run run, TaskListener listener) {
-        super.onStarted(run, listener);
+        Executor e = run.getExecutor();
+        Phase.QUEUED.handle(run, TaskListener.NULL, e != null ? System.currentTimeMillis() - e.getTimeSpentInQueue() : 0L);
+        Phase.STARTED.handle(run, listener, run.getTimeInMillis());
     }
 
     @Override

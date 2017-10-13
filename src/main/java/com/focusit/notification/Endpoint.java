@@ -5,8 +5,8 @@ package com.focusit.notification;
  */
 public class Endpoint {
     private String url;
-    private String timeout;
-    private String retries;
+    private Integer timeout;
+    private Integer retries;
 
     public String getUrl() {
         return url;
@@ -16,20 +16,20 @@ public class Endpoint {
         this.url = url;
     }
 
-    public String getTimeout() {
+    public Integer getTimeout() {
         return timeout;
     }
 
     public void setTimeout(String timeout) {
-        this.timeout = timeout;
+        this.timeout = Integer.parseInt(timeout);
     }
 
-    public String getRetries() {
+    public Integer getRetries() {
         return retries;
     }
 
     public void setRetries(String retries) {
-        this.retries = retries;
+        this.retries = Integer.parseInt(retries);
     }
 
 }
