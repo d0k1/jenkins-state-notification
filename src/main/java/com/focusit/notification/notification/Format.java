@@ -11,24 +11,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.focusit.notification;
+package com.focusit.notification.notification;
 
 import java.io.IOException;
 
+import com.focusit.notification.model.ExecutorsState;
 import com.focusit.notification.model.JobState;
+import com.focusit.notification.model.QueueState;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public enum Format {
-    JSON {
-        private final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    JSON;
 
-        @Override
-        protected byte[] serialize(JobState jobState) throws IOException {
-            return gson.toJson(jobState).getBytes( "UTF-8" );
-        }
-    };
+    private final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    public byte[] serialize(JobState jobState) throws IOException {
+        return gson.toJson(jobState).getBytes( "UTF-8" );
+    }
 
-    protected abstract byte[] serialize(JobState jobState) throws IOException;
+    public byte[] serialize(QueueState jobState) throws IOException {
+        return gson.toJson(jobState).getBytes( "UTF-8" );
+    }
+
+    public byte[] serialize(ExecutorsState jobState) throws IOException {
+        return gson.toJson(jobState).getBytes( "UTF-8" );
+    }
 }

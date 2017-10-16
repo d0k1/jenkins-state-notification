@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.focusit.notification;
+package com.focusit.notification.notification;
 
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public enum Protocol {
 
     HTTP {
         @Override
-        protected void send(String url, byte[] data, int timeout, boolean isJson) throws IOException {
+        public void send(String url, byte[] data, int timeout, boolean isJson) throws IOException {
             URL targetUrl = new URL(url);
             if (!targetUrl.getProtocol().startsWith("http")) {
               throw new IllegalArgumentException("Not an http(s) url: " + url);
@@ -104,7 +104,7 @@ public enum Protocol {
     };
 
 
-    protected abstract void send(String url, byte[] data, int timeout, boolean isJson) throws IOException;
+    public abstract void send(String url, byte[] data, int timeout, boolean isJson) throws IOException;
 
     public void validateUrl(String url) {
         try {

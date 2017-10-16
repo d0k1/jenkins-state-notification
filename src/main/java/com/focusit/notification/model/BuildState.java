@@ -14,13 +14,11 @@
 package com.focusit.notification.model;
 
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.focusit.notification.Phase;
-import hudson.model.AbstractBuild;
+import com.focusit.notification.phases.BuildPhase;
 import hudson.model.Job;
 import hudson.model.Run;
 import jenkins.model.Jenkins;
@@ -35,7 +33,7 @@ public class BuildState {
 
     private long timestamp; 
 
-    private Phase phase;
+    private BuildPhase phase;
 
     private String status;
 
@@ -85,11 +83,11 @@ public class BuildState {
         this.timestamp = timestamp;
     }
 
-    public Phase getPhase() {
+    public BuildPhase getPhase() {
         return phase;
     }
 
-    public void setPhase(Phase phase) {
+    public void setPhase(BuildPhase phase) {
         this.phase = phase;
     }
 

@@ -17,6 +17,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("job")
 public class JobState {
+    private String type="JobState";
 
     private String name;
 
@@ -25,6 +26,12 @@ public class JobState {
     private String url;
 
     private BuildState build;
+
+    private String nodeName;
+
+    private String nodeLabel;
+
+    private String nodeHost;
 
     public String getName() {
         return name;
@@ -56,5 +63,37 @@ public class JobState {
 
     public void setBuild(BuildState build) {
         this.build = build;
+    }
+
+    public String getNodeName() {
+        return nodeName;
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    public String getNodeLabel() {
+        return nodeLabel;
+    }
+
+    public void setNodeLabel(String nodeLabel) {
+        this.nodeLabel = nodeLabel;
+    }
+
+    public String getNodeHost() {
+        return nodeHost;
+    }
+
+    public void setNodeHost(String nodeHost) {
+        this.nodeHost = nodeHost;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

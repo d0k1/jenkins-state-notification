@@ -1,5 +1,6 @@
-package com.focusit.notification;
+package com.focusit.notification.listeners;
 
+import com.focusit.notification.phases.QueuePhase;
 import hudson.Extension;
 import hudson.model.Queue;
 import hudson.model.queue.QueueListener;
@@ -11,36 +12,36 @@ import hudson.model.queue.QueueListener;
 public class JobQueueListener extends QueueListener {
     @Override
     public void onEnterWaiting(Queue.WaitingItem wi) {
-        super.onEnterWaiting(wi);
+        QueuePhase.WAITING_IN.handle(wi);
     }
 
     @Override
     public void onLeaveWaiting(Queue.WaitingItem wi) {
-        super.onLeaveWaiting(wi);
+        QueuePhase.WAITING_OUT.handle(wi);
     }
 
     @Override
     public void onEnterBlocked(Queue.BlockedItem bi) {
-        super.onEnterBlocked(bi);
+        QueuePhase.BLOCK_IN.handle(bi);
     }
 
     @Override
     public void onLeaveBlocked(Queue.BlockedItem bi) {
-        super.onLeaveBlocked(bi);
+        QueuePhase.BLOCK_OUT.handle(bi);
     }
 
     @Override
     public void onEnterBuildable(Queue.BuildableItem bi) {
-        super.onEnterBuildable(bi);
+        QueuePhase.BUILD_IN.handle(bi);
     }
 
     @Override
     public void onLeaveBuildable(Queue.BuildableItem bi) {
-        super.onLeaveBuildable(bi);
+        QueuePhase.BUILD_OUT.handle(bi);
     }
 
     @Override
     public void onLeft(Queue.LeftItem li) {
-        super.onLeft(li);
+        QueuePhase.LEAVE.handle(li);
     }
 }

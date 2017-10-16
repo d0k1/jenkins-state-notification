@@ -11,11 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.focusit.notification;
+package com.focusit.notification.phases;
 
 import java.io.IOException;
 import java.util.List;
 
+import com.focusit.notification.notification.Endpoint;
+import com.focusit.notification.notification.Format;
+import com.focusit.notification.GlobalNotificationConfig;
+import com.focusit.notification.notification.Protocol;
 import com.focusit.notification.model.BuildState;
 import com.focusit.notification.model.JobState;
 import com.focusit.notification.model.ScmState;
@@ -25,15 +29,15 @@ import jenkins.model.Jenkins;
 
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public enum Phase {
+public enum BuildPhase {
     QUEUED, STARTED, COMPLETED, FINALIZED;
 
     @SuppressWarnings( "CastToConcreteClass" )
     public void handle(Run run, TaskListener listener, long timestamp) {
-
-        Endpoint target = GlobalNotificationConfig.get().getEndpoint();
+        GlobalNotificationConfig cfg = GlobalNotificationConfig.get();
+        Endpoint target = cfg.getEndpoint();
         {
-            if (isRun(target, run.getResult())) {
+            if (isRun(cfg, run.getResult())) {
                 int triesRemaining = target.getRetries();
                 boolean failed = false;
                 do {
@@ -71,20 +75,8 @@ public enum Phase {
     /**
      * Determines if the endpoint specified should be notified at the current job phase.
      */
-    private boolean isRun( Endpoint endpoint, Result result ) {
-        /*
-        String event = endpoint.getEvent();
-        
-        String status = "";
-        if ( result != null ) {
-            status = result.toString();
-        }
-        
-        boolean buildFailed = event.equals("failed") && this.toString().toLowerCase().equals("finalized") && status.toLowerCase().equals("failure");
-        		
-        return (( event == null ) || event.equals( "all" ) || event.equals( this.toString().toLowerCase()) || buildFailed);
-        */
-        return true;
+    private boolean isRun(GlobalNotificationConfig cfg, Result result ) {
+        return cfg.getEnabled();
     }
 
     private JobState buildJobState(Job job, Run run, TaskListener listener, long timestamp, Endpoint target)
@@ -101,6 +93,9 @@ public enum Phase {
         EnvVars            environment  = run.getEnvironment( listener );
         StringBuilder      log          = this.getLog(run, target);
 
+        jobState.setNodeName(run.getExecutor().getOwner().getNode().getDisplayName());
+        jobState.setNodeLabel(run.getExecutor().getOwner().getNode().getLabelString());
+        jobState.setNodeHost(run.getExecutor().getOwner().getHostName());
         jobState.setName( job.getName());
         jobState.setDisplayName(job.getDisplayName());
         jobState.setUrl( job.getUrl());

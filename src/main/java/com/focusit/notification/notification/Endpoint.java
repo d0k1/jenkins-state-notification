@@ -1,4 +1,6 @@
-package com.focusit.notification;
+package com.focusit.notification.notification;
+
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * Created by doki on 11.10.17.
@@ -7,6 +9,17 @@ public class Endpoint {
     private String url;
     private Integer timeout;
     private Integer retries;
+
+    public Endpoint(){
+
+    }
+
+    @DataBoundConstructor
+    public Endpoint(String url, Integer timeout, Integer retries) {
+        this.url = url;
+        this.timeout = timeout;
+        this.retries = retries;
+    }
 
     public String getUrl() {
         return url;
