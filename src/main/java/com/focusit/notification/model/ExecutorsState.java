@@ -7,6 +7,7 @@ public class ExecutorsState {
     private String type="ExecutorsState";
     private Integer executors;
     private Integer executorsBusy;
+    private long timestamp;
 
     public String getType() {
         return type;
@@ -30,5 +31,13 @@ public class ExecutorsState {
 
     public void setExecutorsBusy(Integer executorsBusy) {
         this.executorsBusy = executorsBusy;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
