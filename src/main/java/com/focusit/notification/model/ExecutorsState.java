@@ -8,6 +8,7 @@ public class ExecutorsState {
     private Integer executors;
     private Integer executorsBusy;
     private long timestamp;
+    private String state;
 
     public String getType() {
         return type;
@@ -39,5 +40,13 @@ public class ExecutorsState {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

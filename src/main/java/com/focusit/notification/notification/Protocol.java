@@ -13,7 +13,6 @@
  */
 package com.focusit.notification.notification;
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.*;
@@ -22,12 +21,14 @@ import javax.xml.bind.DatatypeConverter;
 
 import jenkins.model.Jenkins;
 
-
 public enum Protocol {
 
     HTTP {
         @Override
         public void send(String url, byte[] data, int timeout, boolean isJson) throws IOException {
+
+            System.err.println(new String(data, "UTF-8"));
+
             URL targetUrl = new URL(url);
             if (!targetUrl.getProtocol().startsWith("http")) {
               throw new IllegalArgumentException("Not an http(s) url: " + url);

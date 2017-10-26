@@ -24,9 +24,10 @@ public enum QueuePhase {
         if(cfg.getEnabled()){
             Endpoint target = cfg.getEndpoint();
             QueueState state = new QueueState();
-            state.setState(this.toString());
+            state.setState(this .toString());
             state.setTimestamp(new Date().getTime());
             state.setQueueId(queueItem.getId());
+            state.setBuildName(queueItem.task.getName());
             state.setQueueLength(Jenkins.getInstance().getQueue().getItems().length);
 
             if(queueItem.task instanceof Project){

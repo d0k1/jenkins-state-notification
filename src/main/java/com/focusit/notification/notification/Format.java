@@ -16,6 +16,7 @@ package com.focusit.notification.notification;
 import java.io.IOException;
 
 import com.focusit.notification.model.ExecutorsState;
+import com.focusit.notification.model.ItemState;
 import com.focusit.notification.model.JobState;
 import com.focusit.notification.model.QueueState;
 import com.google.gson.FieldNamingPolicy;
@@ -30,11 +31,15 @@ public enum Format {
         return gson.toJson(jobState).getBytes( "UTF-8" );
     }
 
-    public byte[] serialize(QueueState jobState) throws IOException {
-        return gson.toJson(jobState).getBytes( "UTF-8" );
+    public byte[] serialize(ItemState itemState) throws IOException {
+        return gson.toJson(itemState).getBytes( "UTF-8" );
     }
 
-    public byte[] serialize(ExecutorsState jobState) throws IOException {
-        return gson.toJson(jobState).getBytes( "UTF-8" );
+    public byte[] serialize(QueueState queueState) throws IOException {
+        return gson.toJson(queueState).getBytes( "UTF-8" );
+    }
+
+    public byte[] serialize(ExecutorsState executorsState) throws IOException {
+        return gson.toJson(executorsState).getBytes( "UTF-8" );
     }
 }

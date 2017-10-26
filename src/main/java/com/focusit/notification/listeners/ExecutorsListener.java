@@ -1,5 +1,6 @@
 package com.focusit.notification.listeners;
 
+import com.focusit.notification.phases.ExecutorPhase;
 import hudson.Extension;
 import hudson.model.Run;
 import hudson.model.TaskListener;
@@ -19,12 +20,12 @@ public class ExecutorsListener extends RunListener<Run> {
 
     @Override
     public void onFinalized(Run run) {
-        super.onFinalized(run);
+        ExecutorPhase.RELEASED.handle(System.currentTimeMillis());
     }
 
     @Override
     public void onStarted(Run run, TaskListener listener) {
-        super.onStarted(run, listener);
+        ExecutorPhase.ACQUIRED.handle(System.currentTimeMillis());
     }
 
     @Override

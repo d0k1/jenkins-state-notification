@@ -1,42 +1,39 @@
 package com.focusit.notification.phases;
 
 import com.focusit.notification.GlobalNotificationConfig;
-import com.focusit.notification.model.ExecutorsState;
+import com.focusit.notification.model.ItemState;
 import com.focusit.notification.notification.Endpoint;
 import com.focusit.notification.notification.Format;
 import com.focusit.notification.notification.Protocol;
-import hudson.model.Computer;
-import jenkins.model.Jenkins;
+import hudson.model.AbstractItem;
+import hudson.model.Item;
 
-/**
- * Created by doki on 14.10.17.
- */
-public enum ExecutorPhase {
-    ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE;
+import java.io.IOException;
 
-    public void handle(long timestamp) {
+public enum ItemPhase {
+    LOCATION_CHANGED, CREATED, COPIED, DELETED, RENAMED, UPDATED;
+
+    public void handle(long timestamp, Item item, String oldName) {
         GlobalNotificationConfig cfg = GlobalNotificationConfig.get();
-        if (cfg.getEnabled()) {
+        if (cfg.getEnabled() && item instanceof AbstractItem) {
+            AbstractItem aItem = (AbstractItem) item;
             Endpoint target = cfg.getEndpoint();
 
-            ExecutorsState state = new ExecutorsState();
+            ItemState state = new ItemState();
             state.setTimestamp(timestamp);
+            state.setFullName(aItem.getFullName());
+            state.setName(aItem.getName());
             state.setState(this.toString());
 
-            final int[] executors = {0};
-            final int[] executorsBusy = {0};
-
-            for(Computer computer : Jenkins.getInstance().getComputers()){
-                computer.getExecutors().forEach(executor->{
-                    executors[0]++;
-                    if(executor.isBusy()){
-                        executorsBusy[0]++;
-                    }
-                });
+            try {
+                state.setConfiguration(aItem.getConfigFile().asString());
+            } catch (IOException e){
+                state.setConfiguration("Error reading configuration: "+e.toString());
             }
 
-            state.setExecutorsBusy(executorsBusy[0]);
-            state.setExecutors(executors[0]);
+            if(oldName!=null && !oldName.trim().isEmpty()){
+                state.setOldName(oldName);
+            }
 
             int triesRemaining = target.getRetries();
             boolean failed = false;
@@ -55,4 +52,5 @@ public enum ExecutorPhase {
             }while(failed && --triesRemaining >= 0);
         }
     }
+
 }
