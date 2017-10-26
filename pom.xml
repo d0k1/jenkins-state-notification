@@ -11,6 +11,18 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>animal-sniffer-maven-plugin</artifactId>
+                <version>1.16</version>
+                <configuration>
+                    <signature>
+                        <groupId>org.codehaus.mojo.signature</groupId>
+                        <artifactId>java18</artifactId>
+                        <version>1.0</version>
+                    </signature>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -26,7 +38,7 @@
         <version>2.33</version>
         <relativePath />
     </parent>
-    <artifactId>notification-focus</artifactId>
+    <artifactId>focused-notifications</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <properties>
@@ -34,7 +46,7 @@
     </properties>
     <name>FocusedNotifications</name>
     <description>Plugin to monitor Jenkins state: configuration changes, executors usage, tasks statuses, task queue</description>
-    <url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
+    <url>https://wiki.jenkins-ci.org/display/JENKINS/FocusedNotifications+Plugin</url>
     <licenses>
         <license>
             <name>MIT License</name>
