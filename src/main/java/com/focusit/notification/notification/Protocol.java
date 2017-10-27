@@ -26,9 +26,6 @@ public enum Protocol {
     HTTP {
         @Override
         public void send(String url, byte[] data, int timeout, boolean isJson) throws IOException {
-
-            System.err.println(new String(data, "UTF-8"));
-
             URL targetUrl = new URL(url);
             if (!targetUrl.getProtocol().startsWith("http")) {
               throw new IllegalArgumentException("Not an http(s) url: " + url);
