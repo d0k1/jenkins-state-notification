@@ -6,7 +6,11 @@ import com.focusit.notification.notification.Endpoint;
 import com.focusit.notification.notification.Format;
 import com.focusit.notification.notification.Protocol;
 import hudson.model.Computer;
+import hudson.model.Run;
 import jenkins.model.Jenkins;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
 
 /**
  * Created by doki on 14.10.17.
@@ -14,7 +18,7 @@ import jenkins.model.Jenkins;
 public enum ExecutorPhase {
     ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE;
 
-    public void handle(long timestamp) {
+    public void handle(long timestamp, @Nullable Run run) {
         GlobalNotificationConfig cfg = GlobalNotificationConfig.get();
         if (cfg.getEnabled()) {
             Endpoint target = cfg.getEndpoint();
@@ -23,6 +27,17 @@ public enum ExecutorPhase {
             state.setTimestamp(timestamp);
             state.setState(this.toString());
 
+            if(run!=null) {
+                state.setNodeName(run.getExecutor().getOwner().getNode().getDisplayName());
+                state.setNodeLabel(run.getExecutor().getOwner().getNode().getLabelString());
+                try {
+                    state.setNodeHost(run.getExecutor().getOwner().getHostName());
+                } catch (Exception e) {
+                }
+
+                state.setBuildName(run.getParent().getName());
+                state.setBuildId(run.number);
+            }
             final int[] executors = {0};
             final int[] executorsBusy = {0};
 

@@ -20,12 +20,12 @@ public class ExecutorsListener extends RunListener<Run> {
 
     @Override
     public void onFinalized(Run run) {
-        ExecutorPhase.RELEASED.handle(System.currentTimeMillis());
+        ExecutorPhase.RELEASED.handle(System.currentTimeMillis(), run);
     }
 
     @Override
     public void onStarted(Run run, TaskListener listener) {
-        ExecutorPhase.ACQUIRED.handle(System.currentTimeMillis());
+        ExecutorPhase.ACQUIRED.handle(System.currentTimeMillis(), run);
     }
 
     @Override
