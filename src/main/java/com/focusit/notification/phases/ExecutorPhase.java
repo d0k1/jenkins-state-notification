@@ -28,9 +28,11 @@ public enum ExecutorPhase {
 
             for(Computer computer : Jenkins.getInstance().getComputers()){
                 computer.getExecutors().forEach(executor->{
-                    executors[0]++;
-                    if(executor.isBusy()){
-                        executorsBusy[0]++;
+                    if(computer.isOnline() && executor.isActive()) {
+                        executors[0]++;
+                        if (executor.isBusy()) {
+                            executorsBusy[0]++;
+                        }
                     }
                 });
             }
