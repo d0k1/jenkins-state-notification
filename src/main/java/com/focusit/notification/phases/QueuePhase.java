@@ -32,7 +32,7 @@ public enum QueuePhase {
 
             if(queueItem.task instanceof Project){
                 Project prj = (Project) queueItem.task;
-                state.setName(prj.getName());
+//                state.setName(prj.getName());
                 state.setBuildId(prj.getNextBuildNumber());
             }
 

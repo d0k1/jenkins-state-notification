@@ -6,7 +6,7 @@ package com.focusit.notification.model;
 public class QueueState {
     private String type="QueueState";
     private Long queueId;
-    private String name;
+//    private String name;
     private Integer buildId;
     private String buildName;
     private Long timestamp;
@@ -21,13 +21,13 @@ public class QueueState {
         this.queueId = queueId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public Long getTimestamp() {
         return timestamp;
