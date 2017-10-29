@@ -1,6 +1,8 @@
 package com.focusit.notification.listeners;
 
+import com.focusit.notification.phases.ExecutorPhase;
 import com.focusit.notification.phases.QueuePhase;
+
 import hudson.Extension;
 import hudson.model.Queue;
 import hudson.model.queue.QueueListener;
@@ -13,6 +15,9 @@ public class JobQueueListener extends QueueListener {
     @Override
     public void onEnterWaiting(Queue.WaitingItem wi) {
         QueuePhase.WAITING_IN.handle(wi);
+
+        // Check executors usage
+        ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
     }
 
     @Override
@@ -43,5 +48,8 @@ public class JobQueueListener extends QueueListener {
     @Override
     public void onLeft(Queue.LeftItem li) {
         QueuePhase.LEAVE.handle(li);
+
+        // Check executors usage
+        ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
     }
 }

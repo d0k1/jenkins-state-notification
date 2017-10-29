@@ -1,13 +1,15 @@
 package com.focusit.notification.listeners;
 
+import javax.annotation.Nonnull;
+
 import com.focusit.notification.phases.BuildPhase;
+import com.focusit.notification.phases.QueuePhase;
+
 import hudson.Extension;
 import hudson.model.Executor;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
-
-import javax.annotation.Nonnull;
 
 /**
  * Created by doki on 11.10.17.
@@ -27,6 +29,9 @@ public class JobListener extends RunListener<Run> {
     @Override
     public void onFinalized(Run run) {
         BuildPhase.FINALIZED.handle(run, TaskListener.NULL, System.currentTimeMillis());
+
+        // Check queue length
+        QueuePhase.CHECK_LENGTH.handle(null);
     }
 
     @Override
@@ -34,6 +39,9 @@ public class JobListener extends RunListener<Run> {
         Executor e = run.getExecutor();
         BuildPhase.QUEUED.handle(run, TaskListener.NULL, e != null ? System.currentTimeMillis() - e.getTimeSpentInQueue() : 0L);
         BuildPhase.STARTED.handle(run, listener, run.getTimeInMillis());
+
+        // Check queue length
+        QueuePhase.CHECK_LENGTH.handle(null);
     }
 
     @Override

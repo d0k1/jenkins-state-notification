@@ -1,24 +1,25 @@
 package com.focusit.notification.phases;
 
+import javax.annotation.Nullable;
+
 import com.focusit.notification.GlobalNotificationConfig;
 import com.focusit.notification.model.ExecutorsState;
 import com.focusit.notification.notification.Endpoint;
 import com.focusit.notification.notification.Format;
 import com.focusit.notification.notification.Protocol;
+
 import hudson.model.Computer;
 import hudson.model.Run;
 import jenkins.model.Jenkins;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * Created by doki on 14.10.17.
  */
 public enum ExecutorPhase {
-    ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE;
+    ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE, CHECK_USAGE;
 
-    public void handle(long timestamp, @Nullable Run run) {
+    public void handle(long timestamp, @Nullable Run run, @Nullable Computer computer)
+    {
         GlobalNotificationConfig cfg = GlobalNotificationConfig.get();
         if (cfg.getEnabled()) {
             Endpoint target = cfg.getEndpoint();
@@ -38,12 +39,27 @@ public enum ExecutorPhase {
                 state.setBuildName(run.getParent().getName());
                 state.setBuildId(run.number);
             }
+            else if (computer != null)
+            {
+                state.setNodeName(computer.getNode().getDisplayName());
+                state.setNodeLabel(computer.getNode().getLabelString());
+                try
+                {
+                    state.setNodeHost(computer.getHostName());
+                }
+                catch (Exception e)
+                {
+                }
+            }
+
             final int[] executors = {0};
             final int[] executorsBusy = {0};
 
-            for(Computer computer : Jenkins.getInstance().getComputers()){
-                computer.getExecutors().forEach(executor->{
-                    if(computer.isOnline() && executor.isActive()) {
+            for (Computer item : Jenkins.getInstance().getComputers())
+            {
+                item.getExecutors().forEach(executor -> {
+                    if (item.isOnline() && executor.isActive())
+                    {
                         executors[0]++;
                         if (executor.isBusy()) {
                             executorsBusy[0]++;
