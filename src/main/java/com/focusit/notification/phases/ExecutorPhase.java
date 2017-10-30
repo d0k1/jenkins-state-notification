@@ -16,7 +16,7 @@ import jenkins.model.Jenkins;
  * Created by doki on 14.10.17.
  */
 public enum ExecutorPhase {
-    ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE, CHECK_USAGE;
+    ACQUIRED, RELEASED, ONLINE, OFFLINE, CONFIG_CHANGES, TEMP_ONLINE, TEMP_OFFLINE, CHECK;
 
     public void handle(long timestamp, @Nullable Run run, @Nullable Computer computer)
     {

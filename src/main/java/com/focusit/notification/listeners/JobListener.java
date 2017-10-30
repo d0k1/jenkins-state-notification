@@ -31,7 +31,7 @@ public class JobListener extends RunListener<Run> {
         BuildPhase.FINALIZED.handle(run, TaskListener.NULL, System.currentTimeMillis());
 
         // Check queue length
-        QueuePhase.CHECK_LENGTH.handle(null);
+        QueuePhase.CHECK.handle(null);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class JobListener extends RunListener<Run> {
         BuildPhase.STARTED.handle(run, listener, run.getTimeInMillis());
 
         // Check queue length
-        QueuePhase.CHECK_LENGTH.handle(null);
+        QueuePhase.CHECK.handle(null);
     }
 
     @Override

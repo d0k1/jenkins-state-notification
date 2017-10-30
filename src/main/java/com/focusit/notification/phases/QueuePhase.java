@@ -18,7 +18,7 @@ import jenkins.model.Jenkins;
  * Created by doki on 14.10.17.
  */
 public enum QueuePhase {
-    WAITING_IN, WAITING_OUT, BLOCK_IN, BLOCK_OUT, BUILD_IN, BUILD_OUT, LEAVE, CHECK_LENGTH;
+    WAITING_IN, WAITING_OUT, BLOCK_IN, BLOCK_OUT, BUILD_IN, BUILD_OUT, LEAVE, CHECK;
 
     public void handle(@Nullable Queue.Item queueItem)
     {

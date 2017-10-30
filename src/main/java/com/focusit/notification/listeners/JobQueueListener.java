@@ -17,7 +17,7 @@ public class JobQueueListener extends QueueListener {
         QueuePhase.WAITING_IN.handle(wi);
 
         // Check executors usage
-        ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
+        ExecutorPhase.CHECK.handle(System.currentTimeMillis(), null, null);
     }
 
     @Override
@@ -48,8 +48,5 @@ public class JobQueueListener extends QueueListener {
     @Override
     public void onLeft(Queue.LeftItem li) {
         QueuePhase.LEAVE.handle(li);
-
-        // Check executors usage
-        ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
     }
 }

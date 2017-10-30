@@ -40,7 +40,7 @@ public class ExecutorsListener extends RunListener<Run> {
 
     @Override
     public void onDeleted(Run run) {
-        ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
+        ExecutorPhase.CHECK.handle(System.currentTimeMillis(), null, null);
     }
 
     // Task to check executors usage after executor has finished a task
@@ -49,7 +49,7 @@ public class ExecutorsListener extends RunListener<Run> {
         @Override
         protected void doRun() throws Exception
         {
-            ExecutorPhase.CHECK_USAGE.handle(System.currentTimeMillis(), null, null);
+            ExecutorPhase.CHECK.handle(System.currentTimeMillis(), null, null);
         }
     }
 }

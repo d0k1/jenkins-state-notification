@@ -39,7 +39,7 @@
         <relativePath />
     </parent>
     <artifactId>focused-notifications</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>hpi</packaging>
     <properties>
         <jenkins.version>2.7.3</jenkins.version>
