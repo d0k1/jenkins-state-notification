@@ -33,7 +33,27 @@ public enum QueuePhase {
             {
                 Jenkins.getInstance().getQueue().maintain();
             }
-            state.setQueueLength(Jenkins.getInstance().getQueue().getItems().length);
+
+            Queue.Item items[] = Jenkins.getInstance().getQueue().getItems();
+            state.setQueueLength(items.length);
+            int waiting = 0;
+            int blocked = 0;
+            int buildables = 0;
+
+            for(Queue.Item item:items){
+                if(item instanceof Queue.WaitingItem){
+                    waiting++;
+                }
+                if(item instanceof Queue.BlockedItem){
+                    blocked++;
+                }
+                if(item instanceof Queue.BuildableItem){
+                    buildables++;
+                }
+            }
+            state.setBlockedLength(blocked);
+            state.setWaitingLength(waiting);
+            state.setBuildableLength(buildables);
 
             if (queueItem != null)
             {

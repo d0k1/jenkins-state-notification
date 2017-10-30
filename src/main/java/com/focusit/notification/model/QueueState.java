@@ -12,6 +12,9 @@ public class QueueState {
     private Long timestamp;
     private String state;
     private Integer queueLength;
+    private Integer waitingLength;
+    private Integer blockedLength;
+    private Integer buildableLength;
 
     public Long getQueueId() {
         return queueId;
@@ -20,14 +23,6 @@ public class QueueState {
     public void setQueueId(Long queueId) {
         this.queueId = queueId;
     }
-
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
 
     public Long getTimestamp() {
         return timestamp;
@@ -75,5 +70,29 @@ public class QueueState {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getWaitingLength() {
+        return waitingLength;
+    }
+
+    public void setWaitingLength(Integer waitingLength) {
+        this.waitingLength = waitingLength;
+    }
+
+    public Integer getBlockedLength() {
+        return blockedLength;
+    }
+
+    public void setBlockedLength(Integer blockedLength) {
+        this.blockedLength = blockedLength;
+    }
+
+    public Integer getBuildableLength() {
+        return buildableLength;
+    }
+
+    public void setBuildableLength(Integer buildableLength) {
+        this.buildableLength = buildableLength;
     }
 }
