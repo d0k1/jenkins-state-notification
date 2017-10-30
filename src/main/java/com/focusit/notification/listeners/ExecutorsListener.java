@@ -36,6 +36,9 @@ public class ExecutorsListener extends RunListener<Run> {
     @Override
     public void onStarted(Run run, TaskListener listener) {
         ExecutorPhase.ACQUIRED.handle(System.currentTimeMillis(), run, null);
+
+        // schedule check usage
+        Timer.get().schedule(new CheckUsageTimerTask(), 30, TimeUnit.SECONDS);
     }
 
     @Override
